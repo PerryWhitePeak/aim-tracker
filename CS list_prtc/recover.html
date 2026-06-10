@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>数据恢复</title>
+<style>
+  body { background:#0a0a0a; color:#e0e0e0; font-family:'Segoe UI',sans-serif; padding:40px; }
+  h1 { color:#ff6b35; }
+  .key { color:#00FF66; font-family:monospace; font-size:14px; }
+  pre { background:#111; padding:20px; border-radius:8px; max-height:400px; overflow:auto; font-size:13px; }
+  button { background:#ff6b35; color:#fff; border:none; padding:12px 24px; border-radius:8px; font-size:16px; cursor:pointer; margin:8px; }
+  button:hover { background:#ff7a4a; }
+  .warn { color:#f0c040; }
+</style>
+</head>
+<body>
+<h1>练枪记录数据恢复工具</h1>
+<p>这个页面会扫描当前来源的 localStorage，查找旧数据。</p>
+
+<div id="results"></div>
+
+<script>
+const KEYS = ['aim_tracker_records', 'records', 'aim_data', 'tracker_data'];
+const allKeys = Object.keys(localStorage);
+
+document.getElementById('results').innerHTML = `
+  <p>当前来源: <span class="key">${location.origin || 'file://'}</span></p>
+  <p>localStorage 共 <span class="key">${allKeys.length}</span> 个 key：</p>
+  <pre>${allKeys.length ? allKeys.map(k => `${k}  (${(localStorage.getItem(k)||'').length} 字符)`).join('\n') : '（空）'}</pre>
+`;
+
+for (const key of KEYS) {
+  const raw = localStorage.getItem(key);
+  if (!raw) continue;
+  try {
+    const data = JSON.parse(raw);
+    if (Array.isArray(data) && data.length > 0 && data[0].kpm !== undefined) {
+      document.getElementById('results').innerHTML += `
+        <p class="warn">✅ 在 key "<b>${key}</b>" 找到 ${data.length} 条练枪记录！</p>
+        <button onclick="downloadData('${key}')">⬇ 下载备份 JSON</button>
+        <button onclick="copyData('${key}')">📋 复制 JSON 到剪贴板</button>
+        <pre>${JSON.stringify(data.slice(0,3), null, 2)}${data.length>3 ? '\n... 还有 '+(data.length-3)+' 条' : ''}</pre>
+      `;
+    }
+  } catch(e) {}
+}
+
+function downloadData(key) {
+  const blob = new Blob([localStorage.getItem(key)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = '练枪记录_恢复_' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function copyData(key) {
+  navigator.clipboard.writeText(localStorage.getItem(key));
+  alert('已复制！粘贴到文本编辑器保存为 .json 即可');
+}
+</script>
+</body>
+</html>

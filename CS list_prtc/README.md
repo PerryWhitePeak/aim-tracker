@@ -1,8 +1,24 @@
 # 🎯 练枪记录器 · Aim Training Tracker
 
+>作者每天练枪没地方记录于是做了这个网页😀
+
+
 CS2 练枪数据追踪工具。记录每次训练的枪械、耗时和 KPM，自动生成分析反馈。
 
 **[👉 直接使用](https://perryyang10.github.io/aim-tracker/)**
+
+## 😄在哪里练枪？
+
+
+
+<img src="showPic/shouye.jpg" alt=" " width="500">
+
+
+<img src="4choices.png" alt=" " width="500">
+
+
+<img src="aim.jpg" alt=" " width="500">
+
 
 ## ✨ 功能
 
