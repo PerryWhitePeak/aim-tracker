@@ -94,7 +94,7 @@
 
   /* ── UID Panel ── */
   .uid-panel { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, margin 0.35s ease; margin: 0 auto; width: 100%; max-width: 500px; }
-  .uid-panel.show { max-height: 160px; margin-top: 12px; }
+  .uid-panel.show { max-height: 200px; margin-top: 12px; }
   .uid-panel-inner { background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px 16px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center; }
   .uid-panel-inner .uid-hint { color: rgba(255,255,255,0.45); font-size: 12px; width: 100%; text-align: center; line-height: 1.6; }
   .uid-panel-inner .uid-value { color: rgba(0,255,100,0.65); font-size: 12px; font-family: monospace; word-break: break-all; text-align: center; }
@@ -363,7 +363,7 @@
     </div>
     <div class="uid-panel" id="uidPanel">
       <div class="uid-panel-inner">
-        <div class="uid-hint">换设备或换域名后数据不见了？把旧设备的用户ID填到这里即可恢复。当前ID：</div>
+        <div class="uid-hint">换了设备或域名，旧数据不见了？<br>去 Supabase 后台 → Table Editor → records 表，找到你之前的 user_id（出现最多的那个 UUID），粘贴到下面点保存即可恢复。也可以从旧的备份 JSON 文件里找任意一条记录的 user_id 字段。</div>
         <span class="uid-value" id="uidDisplay"></span>
         <button class="uid-btn" id="btnUidCopy">复制</button>
         <button class="uid-btn" id="btnUidEdit">修改</button>
